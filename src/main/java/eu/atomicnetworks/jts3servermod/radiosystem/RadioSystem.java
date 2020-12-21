@@ -4,7 +4,8 @@ import de.stefan1200.jts3servermod.interfaces.HandleBotEvents;
 import de.stefan1200.jts3servermod.interfaces.HandleTS3Events;
 import de.stefan1200.jts3servermod.interfaces.JTS3ServerMod_Interface;
 import de.stefan1200.jts3serverquery.JTS3ServerQuery;
-import eu.atomicnetworks.jts3servermod.radiosystem.managers.ApiManager;
+import eu.atomicnetworks.atomicradio.java.AtomicClient;
+import eu.atomicnetworks.jts3servermod.radiosystem.managers.ChannelManager;
 import java.util.HashMap;
 
 /**
@@ -15,8 +16,8 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     
     private JTS3ServerMod_Interface modClass = null;
     private JTS3ServerQuery queryLib = null;
-    
-    private ApiManager apiManager;
+    private AtomicClient atomicClient;
+    private ChannelManager channelManager;
     
     public static void main(String[] args) {
     }
@@ -38,7 +39,8 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     @Override
     public void activate() {
         System.out.println("RadioSystem Plugin v1.0 created by Kacper Mura (VocalZero) https://github.com/VocalZero.");
-        this.apiManager = new ApiManager(this);
+        this.channelManager = new ChannelManager(this);
+        this.atomicClient = new AtomicClient();
     }
 
     @Override
@@ -61,7 +63,7 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
 
     @Override
     public String getCopyright() {
-        return "RadioSystem Plugin v1.0 created by Kacper Mura (VocalZero) [url]https://github.com/VocalZero[/url].";
+        return "RadioSystem Plugin v1.1.0 created by Kacper Mura (VocalZero) [url]https://github.com/VocalZero[/url].";
     }
 
     @Override
@@ -83,16 +85,16 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     public void handleTS3Events(String eventType, HashMap<String, String> eventInfo) {
     }
 
-    public ApiManager getApiManager() {
-        return apiManager;
-    }
-
     public JTS3ServerQuery getQueryLib() {
         return queryLib;
     }
 
     public JTS3ServerMod_Interface getModClass() {
         return modClass;
+    }
+
+    public AtomicClient getAtomicClient() {
+        return atomicClient;
     }
     
 }
