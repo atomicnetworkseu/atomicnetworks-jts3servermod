@@ -4,7 +4,7 @@ import de.stefan1200.jts3servermod.interfaces.HandleBotEvents;
 import de.stefan1200.jts3servermod.interfaces.HandleTS3Events;
 import de.stefan1200.jts3servermod.interfaces.JTS3ServerMod_Interface;
 import de.stefan1200.jts3serverquery.JTS3ServerQuery;
-import eu.atomicnetworks.atomicradio.java.AtomicClient;
+import eu.atomicradio.AtomicClient;
 import eu.atomicnetworks.jts3servermod.radiosystem.managers.ChannelManager;
 import java.util.HashMap;
 
