@@ -11,6 +11,13 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+    
     <dependencies>
         <dependency>
             <groupId>de.stefan1200</groupId>
@@ -29,10 +36,10 @@
             <version>20200518</version>
         </dependency>
         <dependency>
-            <groupId>eu.atomicnetworks</groupId>
-            <artifactId>atomicradio-java</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+	    <groupId>com.github.atomicnetworkseu</groupId>
+	    <artifactId>atomicradio-library</artifactId>
+	    <version>1.0.0</version>
+	</dependency>
     </dependencies>
     
     <build>
