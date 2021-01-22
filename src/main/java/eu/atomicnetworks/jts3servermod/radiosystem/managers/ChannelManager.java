@@ -56,6 +56,7 @@ public class ChannelManager {
         this.timer.setInitialDelay(5000);
         this.timer.setRepeats(true);
         this.timer.start();
+        initCache();
     }
     
     private void initCache() {
