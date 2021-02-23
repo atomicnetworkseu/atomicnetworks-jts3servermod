@@ -6,6 +6,7 @@ import de.stefan1200.jts3servermod.interfaces.HandleTS3Events;
 import de.stefan1200.jts3servermod.interfaces.JTS3ServerMod_Interface;
 import de.stefan1200.jts3serverquery.JTS3ServerQuery;
 import de.stefan1200.jts3serverquery.TS3ServerQueryException;
+import de.stefan1200.jts3serverquery.TeamspeakActionListener;
 import eu.atomicradio.AtomicClient;
 import eu.atomicnetworks.jts3servermod.radiosystem.managers.ChannelManager;
 import eu.atomicnetworks.jts3servermod.radiosystem.managers.MongoManager;
@@ -31,9 +32,20 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     private MongoManager mongoManager;
     private Gson gson;
     
-    private final int channel_creator = 84; //84
-    private final int channel_order = 85; //85
-    private final int channel_role = 9; // 9
+    private final int channel_creator = 20; //84
+    private final int channel_order = 20; //85
+    private final int channel_role = 5; // 9
+    
+    private final int nochat_role = 20; // 20
+    private final int nopoke_role = 19; // 19
+    private final int bottoggle_role = 43; // 43
+    private final int german_role = 31; // 31
+    private final int accept_role_1 = 29; // 29
+    private final int accept_role_2 = 32; // 32
+    private final int accept_role_3 = 54; // 54
+    
+    private final int support_end_channel = 26; // 26
+    private final int main_channel = 43; // 43
     
     public static void main(String[] args) {
     }
@@ -59,6 +71,179 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
         this.mongoManager = new MongoManager(this);
         this.channelManager = new ChannelManager(this);
         this.atomicClient = new AtomicClient();
+        this.queryLib.setTeamspeakActionListener(new TeamspeakActionListener() {
+            @Override
+            public void teamspeakActionPerformed(String eventType, HashMap<String, String> eventInfo) {
+                if(eventType.equals("notifytextmessage")) {
+                    String message = eventInfo.get("msg");
+                    if(message.startsWith("!")) {
+                        switch(message.toLowerCase()) {
+                            case "!nochat":
+                                try {
+                                    HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("invokerid")));
+                                    String[] groups = clientInfo.get("client_servergroups").split(",");
+                                    boolean hasGroup = false;
+                                    for(String group : groups) {
+                                        if(Integer.valueOf(group) == nochat_role) {
+                                            hasGroup = true;
+                                        }
+                                    }
+                                    if(hasGroup) {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], you can now be contacted by everyone again.");
+                                        queryLib.doCommand(MessageFormat.format("servergroupdelclient sgid={0} cldbid={1}", nochat_role, clientInfo.get("client_database_id")));
+                                    } else {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], you can now no longer be contacted.");
+                                        queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", nochat_role, clientInfo.get("client_database_id")));
+                                    }
+                                } catch (TS3ServerQueryException ex) {
+                                    Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                break;
+                            case "!german":
+                                try {
+                                    HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("invokerid")));
+                                    String[] groups = clientInfo.get("client_servergroups").split(",");
+                                    boolean hasGroup = false;
+                                    for(String group : groups) {
+                                        if(Integer.valueOf(group) == german_role) {
+                                            hasGroup = true;
+                                        }
+                                    }
+                                    if(hasGroup) {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], the role has been removed again.");
+                                        queryLib.doCommand(MessageFormat.format("servergroupdelclient sgid={0} cldbid={1}", german_role, clientInfo.get("client_database_id")));
+                                    } else {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], others now see that you speak [B]German[/B].");
+                                        queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", german_role, clientInfo.get("client_database_id")));
+                                    }
+                                } catch (TS3ServerQueryException ex) {
+                                    Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                break;
+                            case "!bottoggle":
+                                try {
+                                    HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("invokerid")));
+                                    String[] groups = clientInfo.get("client_servergroups").split(",");
+                                    boolean hasGroup = false;
+                                    for(String group : groups) {
+                                        if(Integer.valueOf(group) == bottoggle_role) {
+                                            hasGroup = true;
+                                        }
+                                    }
+                                    if(hasGroup) {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], you will now receive all messages from the system again.");
+                                        queryLib.doCommand(MessageFormat.format("servergroupdelclient sgid={0} cldbid={1}", bottoggle_role, clientInfo.get("client_database_id")));
+                                    } else {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], you will now only receive relevant messages from the system.");
+                                        queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", bottoggle_role, clientInfo.get("client_database_id")));
+                                    }
+                                } catch (TS3ServerQueryException ex) {
+                                    Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                break;
+                            case "!nopoke":
+                                try {
+                                    HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("invokerid")));
+                                    String[] groups = clientInfo.get("client_servergroups").split(",");
+                                    boolean hasGroup = false;
+                                    for(String group : groups) {
+                                        if(Integer.valueOf(group) == nopoke_role) {
+                                            hasGroup = true;
+                                        }
+                                    }
+                                    if(hasGroup) {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], you can now be poked by everyone again.");
+                                        queryLib.doCommand(MessageFormat.format("servergroupdelclient sgid={0} cldbid={1}", nopoke_role, clientInfo.get("client_database_id")));
+                                    } else {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], you can now no longer be poked.");
+                                        queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", nopoke_role, clientInfo.get("client_database_id")));
+                                    }
+                                } catch (TS3ServerQueryException ex) {
+                                    Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                break;
+                            case "!accept":
+                                try {
+                                    HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("invokerid")));
+                                    String[] groups = clientInfo.get("client_servergroups").split(",");
+                                    boolean hasGroup = false;
+                                    for(String group : groups) {
+                                        if(Integer.valueOf(group) == accept_role_1) {
+                                            hasGroup = true;
+                                        }
+                                    }
+                                    if(!hasGroup) {
+                                        queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_1, clientInfo.get("client_database_id")));
+                                        queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_2, clientInfo.get("client_database_id")));
+                                        queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_3, clientInfo.get("client_database_id")));
+                                    }
+                                } catch (TS3ServerQueryException ex) {
+                                    Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                break;
+                        }
+                    }
+                } else if(eventType.equals("notifyclientmoved")) {
+                    if(Integer.valueOf(eventInfo.get("ctid")) == channel_creator) {
+                        HashMap<String, String> clientInfo = modClass.getClientListEntry(Integer.valueOf(eventInfo.get("clid")));
+                        if(channelManager.getChannel(queryLib.decodeTS3String(clientInfo.get("client_unique_identifier"))).getChannelId() != 0) {
+                            Channel channel = channelManager.getChannel(queryLib.decodeTS3String(clientInfo.get("client_unique_identifier")));
+                            HashMap<String, String> channelReponse = queryLib.doCommand(MessageFormat.format("channelinfo cid={0}", channel.getChannelId()));
+                            if(channelReponse.get("msg").equalsIgnoreCase("invalid channelID")) {
+                                try {
+                                    queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("clid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]ChannelCreator[/B] » Your channel has been deleted because you haven't used it for a long time, we will create a new one...");
+                                } catch (TS3ServerQueryException ex) {
+                                    Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                createChannel(eventInfo, clientInfo);
+                                return;
+                            }
+                            try {
+                                queryLib.moveClient(Integer.valueOf(eventInfo.get("clid")), channel.getChannelId(), "");
+                            } catch (TS3ServerQueryException ex) {
+                                Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            return;
+                        }
+                        createChannel(eventInfo, clientInfo);
+                    } else if (Integer.valueOf(eventInfo.get("ctid")) == support_end_channel) {
+                        try {
+                            queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("clid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "Thank you for using our support, we are happy if we could help you!");
+                            queryLib.moveClient(Integer.valueOf(eventInfo.get("clid")), main_channel, "");
+                        } catch (TS3ServerQueryException ex) {
+                            Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } else if(eventType.equals("notifycliententerview")) {
+                    try {
+                        HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("clid")));
+                        String[] groups = clientInfo.get("client_servergroups").split(",");
+                        boolean hasGroup1 = false;
+                        boolean hasGroup2 = false;
+                        boolean hasGroup3 = false;
+                        for(String group : groups) {
+                            if(Integer.valueOf(group) == accept_role_1) {
+                                hasGroup1 = true;
+                            }
+                            if(Integer.valueOf(group) == accept_role_2) {
+                                hasGroup2 = true;
+                            }
+                            if(Integer.valueOf(group) == accept_role_3) {
+                                hasGroup3 = true;
+                            }
+                        }
+                        if(hasGroup1) {
+                            if(!hasGroup2 || !hasGroup3) {
+                                queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_2, clientInfo.get("client_database_id")));
+                                queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_3, clientInfo.get("client_database_id")));
+                            }
+                        }
+                    } catch (TS3ServerQueryException ex) {
+                        Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -101,7 +286,7 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
 
     @Override
     public void handleTS3Events(String eventType, HashMap<String, String> eventInfo) {
-        if(eventType.equalsIgnoreCase("notifyclientmoved")) {
+        /*if(eventType.equalsIgnoreCase("notifyclientmoved")) {
             if(Integer.valueOf(eventInfo.get("ctid")) == this.channel_creator) {
                 HashMap<String, String> clientInfo = this.modClass.getClientListEntry(Integer.valueOf(eventInfo.get("clid")));
                 if(this.getChannelManager().getChannel(this.queryLib.decodeTS3String(clientInfo.get("client_unique_identifier"))).getChannelId() != 0) {
@@ -125,7 +310,7 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                 }
                 this.createChannel(eventInfo, clientInfo);
             }
-        }
+        }*/
     }
     
     private void createChannel(HashMap<String, String> eventInfo, HashMap<String, String> clientInfo) {
