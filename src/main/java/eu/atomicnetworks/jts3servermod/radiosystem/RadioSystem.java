@@ -32,9 +32,9 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     private MongoManager mongoManager;
     private Gson gson;
     
-    private final int channel_creator = 20; //84
-    private final int channel_order = 20; //85
-    private final int channel_role = 5; // 9
+    private final int channel_creator = 84; //84
+    private final int channel_order = 85; //85
+    private final int channel_role = 9; // 9
     
     private final int nochat_role = 20; // 20
     private final int nopoke_role = 19; // 19
@@ -239,7 +239,6 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                             }
                         }
                     } catch (TS3ServerQueryException ex) {
-                        Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
