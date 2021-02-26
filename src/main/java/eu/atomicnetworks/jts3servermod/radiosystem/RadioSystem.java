@@ -44,7 +44,7 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     private final int accept_role_2 = 32; // 32
     private final int accept_role_3 = 54; // 54
     
-    private final int support_end_channel = 26; // 26
+    private final int support_end_channel = 30; // 30
     private final int main_channel = 43; // 43
     
     public static void main(String[] args) {
