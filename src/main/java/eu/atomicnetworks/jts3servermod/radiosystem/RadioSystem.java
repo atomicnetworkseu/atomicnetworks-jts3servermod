@@ -44,8 +44,8 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     private final int accept_role_2 = 32; // 32
     private final int accept_role_3 = 54; // 54
     
-    private final int support_end_channel = 30; // 30
-    private final int main_channel = 43; // 43
+    private final int support_completed = 30; // 30
+    private final int entrancehall = 43; // 43
     
     public static void main(String[] args) {
     }
@@ -206,10 +206,10 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                             return;
                         }
                         createChannel(eventInfo, clientInfo);
-                    } else if (Integer.valueOf(eventInfo.get("ctid")) == support_end_channel) {
+                    } else if (Integer.valueOf(eventInfo.get("ctid")) == support_completed) {
                         try {
-                            queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("clid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "Thank you for using our support, we are happy if we could help you!");
-                            queryLib.moveClient(Integer.valueOf(eventInfo.get("clid")), main_channel, "");
+                            queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("clid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Support[/B] » Thank you for using our support, we are happy if we could help you!");
+                            queryLib.moveClient(Integer.valueOf(eventInfo.get("clid")), entrancehall, "");
                         } catch (TS3ServerQueryException ex) {
                             Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
                         }
