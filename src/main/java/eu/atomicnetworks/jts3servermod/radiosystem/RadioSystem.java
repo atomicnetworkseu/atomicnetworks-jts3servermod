@@ -1,5 +1,7 @@
 package eu.atomicnetworks.jts3servermod.radiosystem;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import com.google.gson.Gson;
 import de.stefan1200.jts3servermod.interfaces.HandleBotEvents;
 import de.stefan1200.jts3servermod.interfaces.HandleTS3Events;
@@ -31,6 +33,8 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     private ChannelManager channelManager;
     private MongoManager mongoManager;
     private Gson gson;
+    
+    private WebhookClient webhookClient;
     
     private final int channel_creator = 84; //84
     private final int channel_order = 85; //85
@@ -72,6 +76,7 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
         this.mongoManager = new MongoManager(this);
         this.channelManager = new ChannelManager(this);
         this.atomicClient = new AtomicClient();
+        this.webhookClient = WebhookClient.withUrl("https://discord.com/api/webhooks/815180601064685588/Gu_XC6PIQ1cBEAZYnjsezKskYRT5ZHqDIqRDqNej4m4lqKAL8Oibycf8SyC4gkFlokyW");
         this.queryLib.setTeamspeakActionListener(new TeamspeakActionListener() {
             @Override
             public void teamspeakActionPerformed(String eventType, HashMap<String, String> eventInfo) {
@@ -238,6 +243,23 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                         try {
                             queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("clid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Support[/B] » Thank you for using our support, we are happy if we could help you!");
                             queryLib.moveClient(Integer.valueOf(eventInfo.get("clid")), entrancehall, "");
+                            
+                            HashMap<String, String> clientInfo = modClass.getClientListEntry(Integer.valueOf(eventInfo.get("clid")));
+                            if(clientInfo == null) {
+                                return;
+                            }
+                            if(eventInfo.get("invokername") == null) {
+                                return;
+                            }
+                            
+                            WebhookEmbedBuilder webhookEmbedBuilder = new WebhookEmbedBuilder();
+                            webhookEmbedBuilder.setColor(9785268);
+                            webhookEmbedBuilder.setDescription(MessageFormat.format("**Ticketcreator**"
+                                    + "\n{0} • {1}\n"
+                                    + "\n**Supporter**"
+                                    + "\n{2} • {3}", queryLib.decodeTS3String(clientInfo.get("client_nickname")), queryLib.decodeTS3String(clientInfo.get("client_unique_identifier")),
+                                        eventInfo.get("invokername"), eventInfo.get("invokeruid")));
+                            webhookClient.send(webhookEmbedBuilder.build());
                         } catch (TS3ServerQueryException ex) {
                             Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
                         }

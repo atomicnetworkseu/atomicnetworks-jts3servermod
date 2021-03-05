@@ -59,6 +59,11 @@
             <version>20201115</version>
         </dependency>
         <dependency>
+            <groupId>club.minnced</groupId>
+            <artifactId>discord-webhooks</artifactId>
+            <version>0.5.4</version>
+        </dependency>
+        <dependency>
 	    <groupId>com.github.atomicnetworkseu</groupId>
 	    <artifactId>atomicradio-library</artifactId>
 	    <version>1.0.1</version>
