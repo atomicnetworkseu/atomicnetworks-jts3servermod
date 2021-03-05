@@ -173,9 +173,12 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                                         }
                                     }
                                     if(!hasGroup) {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Verification[/B] » You can now use all the features of our TeamSpeak, how does it feel?");
                                         queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_1, clientInfo.get("client_database_id")));
                                         queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_2, clientInfo.get("client_database_id")));
                                         queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_3, clientInfo.get("client_database_id")));
+                                    } else {
+                                        queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Verification[/B] » You are already verified, cool right?");
                                     }
                                 } catch (TS3ServerQueryException ex) {
                                     Logger.getLogger(RadioSystem.class.getName()).log(Level.SEVERE, null, ex);
