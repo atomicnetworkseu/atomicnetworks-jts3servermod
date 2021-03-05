@@ -36,6 +36,7 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     private final int channel_order = 85; //85
     private final int channel_role = 9; // 9
     
+    private final int community_role = 15; // 15
     private final int nochat_role = 20; // 20
     private final int nopoke_role = 19; // 19
     private final int bottoggle_role = 43; // 43
@@ -83,10 +84,16 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                                     HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("invokerid")));
                                     String[] groups = clientInfo.get("client_servergroups").split(",");
                                     boolean hasGroup = false;
+                                    boolean hasRight = false;
                                     for(String group : groups) {
                                         if(Integer.valueOf(group) == nochat_role) {
                                             hasGroup = true;
+                                        } else if(Integer.valueOf(group) == community_role) {
+                                            hasRight = true;
                                         }
+                                    }
+                                    if(!hasRight) {
+                                        return;
                                     }
                                     if(hasGroup) {
                                         queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], you can now be contacted by everyone again.");
@@ -104,10 +111,16 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                                     HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("invokerid")));
                                     String[] groups = clientInfo.get("client_servergroups").split(",");
                                     boolean hasGroup = false;
+                                    boolean hasRight = false;
                                     for(String group : groups) {
                                         if(Integer.valueOf(group) == german_role) {
                                             hasGroup = true;
+                                        } else if(Integer.valueOf(group) == community_role) {
+                                            hasRight = true;
                                         }
+                                    }
+                                    if(!hasRight) {
+                                        return;
                                     }
                                     if(hasGroup) {
                                         queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], the role has been removed again.");
@@ -125,10 +138,16 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                                     HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("invokerid")));
                                     String[] groups = clientInfo.get("client_servergroups").split(",");
                                     boolean hasGroup = false;
+                                    boolean hasRight = false;
                                     for(String group : groups) {
                                         if(Integer.valueOf(group) == bottoggle_role) {
                                             hasGroup = true;
+                                        } else if(Integer.valueOf(group) == community_role) {
+                                            hasRight = true;
                                         }
+                                    }
+                                    if(!hasRight) {
+                                        return;
                                     }
                                     if(hasGroup) {
                                         queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], you will now receive all messages from the system again.");
@@ -146,10 +165,16 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                                     HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("invokerid")));
                                     String[] groups = clientInfo.get("client_servergroups").split(",");
                                     boolean hasGroup = false;
+                                    boolean hasRight = false;
                                     for(String group : groups) {
                                         if(Integer.valueOf(group) == nopoke_role) {
                                             hasGroup = true;
+                                        } else if(Integer.valueOf(group) == community_role) {
+                                            hasRight = true;
                                         }
+                                    }
+                                    if(!hasRight) {
+                                        return;
                                     }
                                     if(hasGroup) {
                                         queryLib.sendTextMessage(Integer.valueOf(eventInfo.get("invokerid")), JTS3ServerQuery.TEXTMESSAGE_TARGET_CLIENT, "[B]Successful[/B], you can now be poked by everyone again.");
