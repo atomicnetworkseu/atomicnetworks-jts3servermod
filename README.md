@@ -26,4 +26,4 @@ bot_functions = RadioSystem.jar:radiosystem
 * Restart your JTS3ServerMod.
 
 ## License 📑
-This code is available under the <a href="https://github.com/atomicnetworkseu/atomicnetworks-radiosystem/blob/master/LICENSE">MIT License</a>.
+This code is available under the <a href="https://github.com/atomicnetworkseu/atomicnetworks-radiosystem/blob/master/LICENSE">Mozilla Public License Version 2.0</a>.
