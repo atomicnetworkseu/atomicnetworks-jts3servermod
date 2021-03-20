@@ -38,6 +38,7 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
     private final int channel_order = 85; //85
     private final int channel_role = 9; // 9
     
+    private final int beginner_role = 15; // 15
     private final int accept_role_1 = 29; // 29
     private final int accept_role_2 = 32; // 32
     private final int accept_role_3 = 54; // 54
@@ -165,10 +166,14 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
             try {
                 HashMap<String, String> clientInfo = queryLib.getInfo(JTS3ServerQuery.INFOMODE_CLIENTINFO, Integer.valueOf(eventInfo.get("clid")));
                 String[] groups = clientInfo.get("client_servergroups").split(",");
+                boolean hasGroup = false;
                 boolean hasGroup1 = false;
                 boolean hasGroup2 = false;
                 boolean hasGroup3 = false;
                 for (String group : groups) {
+                    if(Integer.valueOf(group) == beginner_role) {
+                        hasGroup = true;
+                    }
                     if (Integer.valueOf(group) == accept_role_1) {
                         hasGroup1 = true;
                     }
@@ -179,8 +184,9 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                         hasGroup3 = true;
                     }
                 }
-                if (hasGroup1) {
-                    if (!hasGroup2 || !hasGroup3) {
+                if (!hasGroup) {
+                    if (!hasGroup1 || !hasGroup2 || !hasGroup3) {
+                        queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_1, clientInfo.get("client_database_id")));
                         queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_2, clientInfo.get("client_database_id")));
                         queryLib.doCommand(MessageFormat.format("servergroupaddclient sgid={0} cldbid={1}", accept_role_3, clientInfo.get("client_database_id")));
                     }
