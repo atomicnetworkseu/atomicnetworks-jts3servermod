@@ -4,7 +4,6 @@ package eu.atomicnetworks.jts3servermod.radiosystem.objects;
  *
  * @author Kacper Mura
  * Copyright (c) 2021 atomicnetworks ✨
- * This code is available under the MIT License.
  *
  */
 public class Channel {
