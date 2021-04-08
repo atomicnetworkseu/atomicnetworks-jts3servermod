@@ -20,9 +20,6 @@
 * Compile the plugin.
 * Move the jar in the JTS3ServerMod plugin directory.
 * Edit the JTS3ServerMod_server.cfg and add the plugin.
-```
-bot_functions = RadioSystem.jar:radiosystem
-````
 * Restart your JTS3ServerMod.
 
 ## License 📑
