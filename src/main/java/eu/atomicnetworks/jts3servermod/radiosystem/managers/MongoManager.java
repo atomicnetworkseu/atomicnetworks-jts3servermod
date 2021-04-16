@@ -23,8 +23,8 @@ public class MongoManager {
 
     public MongoManager(RadioSystem plugin) {
         this.plugin = plugin;
-        this.client = MongoClients.create(new ConnectionString("mongodb://127.0.0.1"));
-        this.database = client.getDatabase("teamspeak");
+        this.client = MongoClients.create(new ConnectionString("mongodb://10.10.10.108"));
+        this.database = client.getDatabase("atomicnetworks-jts3servermod");
         this.channels = this.database.getCollection("channels");
     }
 
