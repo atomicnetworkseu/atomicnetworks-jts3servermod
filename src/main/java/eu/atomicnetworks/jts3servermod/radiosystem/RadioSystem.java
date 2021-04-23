@@ -170,6 +170,7 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                 boolean hasGroup1 = false;
                 boolean hasGroup2 = false;
                 boolean hasGroup3 = false;
+                boolean block = false;
                 for (String group : groups) {
                     if(Integer.valueOf(group) == beginner_role) {
                         hasGroup = true;
@@ -183,6 +184,13 @@ public class RadioSystem implements HandleBotEvents, HandleTS3Events {
                     if (Integer.valueOf(group) == accept_role_3) {
                         hasGroup3 = true;
                     }
+                    if(Integer.valueOf(group) == 17) {
+                        block = true;
+                    }
+                }
+                if(block || this.queryLib.decodeTS3String(clientInfo.get("client_unique_identifier")).equals("39u3WpLMalZfq9LSLFwzNVwBv18=")
+                        || this.queryLib.decodeTS3String(clientInfo.get("client_unique_identifier")).equals("AELxR05Cjb29qeVSChd83ZmcpQw=")) {
+                    return;
                 }
                 if (!hasGroup) {
                     if (!hasGroup1 || !hasGroup2 || !hasGroup3) {
