@@ -27,28 +27,28 @@ public class ChannelManager {
     private LoadingCache<String, Channel> channelCache;
     
     private String oneLastTitle = "";
-    private String danceLastTitle = "";
-    private String trapLastTitle = "";
+    private String gamingLastTitle = "";
+    private String rapLastTitle = "";
 
     public ChannelManager(RadioSystem plugin) {
         this.plugin = plugin;
         this.timer = new Timer(1000, (e) -> {
-            if(oneLastTitle.isEmpty() || danceLastTitle.isEmpty() || trapLastTitle.isEmpty()) {
+            if(oneLastTitle.isEmpty() || gamingLastTitle.isEmpty() || rapLastTitle.isEmpty()) {
                 this.oneLastTitle = this.plugin.getAtomicClient().getChannelOne().getSong().getTitle();
-                this.danceLastTitle = this.plugin.getAtomicClient().getChannelDance().getSong().getTitle();
-                this.trapLastTitle = this.plugin.getAtomicClient().getChannelTrap().getSong().getTitle();
+                this.gamingLastTitle = this.plugin.getAtomicClient().getChannelGaming().getSong().getTitle();
+                this.rapLastTitle = this.plugin.getAtomicClient().getChannelRap().getSong().getTitle();
                 this.updateChannel();
             }
             if(!this.oneLastTitle.equals(this.plugin.getAtomicClient().getChannelOne().getSong().getTitle())) {
                 this.oneLastTitle = this.plugin.getAtomicClient().getChannelOne().getSong().getTitle();
                 this.updateChannel();
             }
-            if(!this.danceLastTitle.equals(this.plugin.getAtomicClient().getChannelDance().getSong().getTitle())) {
-                this.danceLastTitle = this.plugin.getAtomicClient().getChannelDance().getSong().getTitle();
+            if(!this.gamingLastTitle.equals(this.plugin.getAtomicClient().getChannelGaming().getSong().getTitle())) {
+                this.gamingLastTitle = this.plugin.getAtomicClient().getChannelGaming().getSong().getTitle();
                 this.updateChannel();
             }
-            if(!this.trapLastTitle.equals(this.plugin.getAtomicClient().getChannelTrap().getSong().getTitle())) {
-                this.trapLastTitle = this.plugin.getAtomicClient().getChannelTrap().getSong().getTitle();
+            if(!this.rapLastTitle.equals(this.plugin.getAtomicClient().getChannelRap().getSong().getTitle())) {
+                this.rapLastTitle = this.plugin.getAtomicClient().getChannelRap().getSong().getTitle();
                 this.updateChannel();
             }
         });
@@ -72,7 +72,7 @@ public class ChannelManager {
     }
     
     private void updateChannel() {
-        String description = "[center][size=15]#[size=20][B]yoυr[/B]ѕoɴɢ\n[size=10]In this channel you can always see what is playing, \nhave fun with our program! 💙 \n\n[hr]\n[size=11][table]\n [tr][td][center]\n[img]" + this.plugin.getAtomicClient().getChannelOne().getSong().getArtworks().getArt100() + "[/img] \nATR.[B]ONE[/B][/td]\n\n[td]\n\n [B]" + this.plugin.getAtomicClient().getChannelOne().getSong().getTitle() + "[/B] \n " + this.plugin.getAtomicClient().getChannelOne().getSong().getArtist() + "[/td][/tr]\n\n\n\n [tr]\n\n\n [td][center]\n[img]" + this.plugin.getAtomicClient().getChannelDance().getSong().getArtworks().getArt100() + "[/img] \nATR.[B]DANCE[/B][/td]\n\n[td]\n\n [B]" + this.plugin.getAtomicClient().getChannelDance().getSong().getTitle() + "[/B] \n " + this.plugin.getAtomicClient().getChannelDance().getSong().getArtist() + "[/td][/tr]\n\n\n\n [tr]\n\n\n [td][center]\n[img]" + this.plugin.getAtomicClient().getChannelTrap().getSong().getArtworks().getArt100() + "[/img] \nATR.[B]TRAP[/B][/td]\n\n[td]\n\n [B]" + this.plugin.getAtomicClient().getChannelTrap().getSong().getTitle() + "[/B] \n " + this.plugin.getAtomicClient().getChannelTrap().getSong().getArtist() + "[/td][/tr][/table]\n\n[hr]\n\n[size=9]You have a catchy tune that has already run? \nno problem, you can simply visit [url]atomicradio.eu/history[/url] and you know your new favorite song!\n\n[/center]🎧  [COLOR=#5e5e5e][B]" + this.plugin.getAtomicClient().getAllListeners() + " people[/B] currently listening to our stations[/COLOR]\n";
+        String description = "[center][size=15]#[size=20][B]yoυr[/B]ѕoɴɢ\n[size=10]In this channel you can always see what is playing, \nhave fun with our program! 💙 \n\n[hr]\n[size=11][table]\n [tr][td][center]\n[img]" + this.plugin.getAtomicClient().getChannelOne().getSong().getArtworks().getArt100() + "[/img] \nATR.[B]ONE[/B][/td]\n\n[td]\n\n [B]" + this.plugin.getAtomicClient().getChannelOne().getSong().getTitle() + "[/B] \n " + this.plugin.getAtomicClient().getChannelOne().getSong().getArtist() + "[/td][/tr]\n\n\n\n [tr]\n\n\n [td][center]\n[img]" + this.plugin.getAtomicClient().getChannelGaming().getSong().getArtworks().getArt100() + "[/img] \nATR.[B]GAMING[/B][/td]\n\n[td]\n\n [B]" + this.plugin.getAtomicClient().getChannelGaming().getSong().getTitle() + "[/B] \n " + this.plugin.getAtomicClient().getChannelGaming().getSong().getArtist() + "[/td][/tr]\n\n\n\n [tr]\n\n\n [td][center]\n[img]" + this.plugin.getAtomicClient().getChannelRap().getSong().getArtworks().getArt100() + "[/img] \nATR.[B]RAP[/B][/td]\n\n[td]\n\n [B]" + this.plugin.getAtomicClient().getChannelRap().getSong().getTitle() + "[/B] \n " + this.plugin.getAtomicClient().getChannelRap().getSong().getArtist() + "[/td][/tr][/table]\n\n[hr]\n\n[size=9]You have a catchy tune that has already run? \nno problem, you can simply visit [url]atomicradio.eu/history[/url] and you know your new favorite song!\n\n[/center]🎧  [COLOR=#5e5e5e][B]" + this.plugin.getAtomicClient().getAllListeners() + " people[/B] currently listening to our stations[/COLOR]\n";
         if(this.plugin.getAtomicClient().isLive()) {
             if(plugin.getModClass().getChannelName(129).equals("[cspacer]" + this.plugin.getAtomicClient().getStreamer().split(" ")[0] + " is currently streaming")) {
                 this.plugin.getQueryLib().doCommand("channeledit cid=129 channel_description=" + this.plugin.getQueryLib().encodeTS3String(description));
